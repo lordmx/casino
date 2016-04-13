@@ -1,0 +1,7 @@
+timezone: "Asia/Novosibirsk"
+db:
+    user: root
+    password: root
+    host: localhost
+    database: casino_dev
+    names: utf8
