@@ -69,9 +69,26 @@ func (service *ServiceExpress) PersistResponse(response *ExpressResponse) bool {
 			Order: response.Order,
 			Client: response.Client,
 		}
+	} else {
+		bid := response.Bid
+		bid.CompletedAt = time.Now()
+		bid.Reference = response.Reference
+		bid.Notice = response.Notice
+
+		status := Success
+
+		switch (true) {
+		case response.IsTimedOut:
+			status = TimedOut
+		case !response.IsTimedOut && !response.IsSuccess:
+			status = Failure
+		}
+
+		bid.Status = status
 	}
 
 	service.DB.Save(response.Bid)
+
 	return response.Bid.ID > 0
 }
 

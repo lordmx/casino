@@ -100,6 +100,8 @@ type Order struct {
 
 	// Идентификатор заказа
 	ID uint `gorm:"AUTO_INCREMENT"`
+	// Хэш-код заказа для внешних систем
+	Hash string
 	// Желаемая сумма
 	DesiredAmount float64
 	// Заказчик
@@ -128,6 +130,8 @@ type Client struct {
 	PaymentTypes []PaymentType
 	// Города, с которыми работает клиент
 	ServiceCities []City
+	// Название обработчика API-ответов
+	HandlerName string
 	// Обработчик API-ответов
 	Handler ClientHandler `gorm:"-"`
 }
@@ -148,6 +152,8 @@ type Bid struct {
 	Notice string
 	// Статус заявки
 	Status BidStatus
+	// Дата закрытия (получения ответа или ошибки) заявки
+	CompletedAt time.Time
 }
 
 // Предложенные пакеты (заказчику от НФО)
@@ -156,6 +162,8 @@ type OfferedPackage struct {
 
 	// Идентификатор предложения
 	ID uint `gorm:"AUTO_INCREMENT"`
+	// Идентификатор пакета во внешней системе
+	Reference string
 	// Одобренная сумма займа
 	ApprovedAmount float64
 	// Валюта займа
